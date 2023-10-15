@@ -1,0 +1,13 @@
+{
+    "company_name": "SENTAL S.A.S",
+    "chamber_of_commerce": "PEREIRA",
+    "nit": "NIT 901258305 - 8",
+    "status": "ACTIVA",
+    "legal_organization": "SOCIEDAD COMERCIAL",
+    "category": "SOCIEDAD \u00f3 PERSONA JURIDICA PRINCIPAL \u00f3 ESAL",
+    "established_date": "20210420",
+    "economic_activity": {
+        "1020": "Procesamiento y conservaci\u00f3n de frutas, legumbres, hortalizas y tub\u00e9rculos",
+        "4721": "Comercio al por menor de productos agr\u00edcolas para el consumo en establecimientos especializados"
+    }
+}

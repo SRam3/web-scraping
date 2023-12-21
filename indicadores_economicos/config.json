@@ -1,0 +1,12 @@
+{
+    "pages": [
+      {
+        "name": "PIB",
+        "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/CuentasNacionales/Indices/c124092023.htm",
+        "selectors": {
+          "data_links": "a[href*='CuentasNacionales'][href$='.xlsx']"
+        }
+      }
+    ]
+  }
+  

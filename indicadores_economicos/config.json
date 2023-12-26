@@ -6,6 +6,13 @@
         "selectors": {
           "data_links": "a[href*='CuentasNacionales'][href$='.xlsx']"
         }
+      },
+      {
+        "name": "IVA",
+        "url": "https://www.sri.gob.ec/estadisticas-generales-de-recaudacion-sri",
+        "selectors": {
+          
+        }
       }
     ]
   }

@@ -1,5 +1,5 @@
 from config_reader import ConfigReader
-from web_scraper import Spider, WebProperties, PIB
+from web_scraper import BrowserManager, WebProperties, PIB
 from playwright.sync_api import sync_playwright
 
 
@@ -9,7 +9,7 @@ def main():
     pages_config = config_reader.read_config()
 
     with sync_playwright() as playwright:
-        web_properties = WebProperties(playwright, browser_type=playwright.chromium)
+        web_properties = WebProperties(browser_type=playwright.chromium)
 
         pib_config = pages_config[0]
 

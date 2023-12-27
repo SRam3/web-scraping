@@ -4,14 +4,21 @@
         "name": "PIB",
         "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/CuentasNacionales/Indices/c124092023.htm",
         "selectors": {
-          "data_links": "a[href*='CuentasNacionales'][href$='.xlsx']"
+          "data_links": "a[href$='.xlsx']"
         }
       },
       {
         "name": "IVA",
         "url": "https://www.sri.gob.ec/estadisticas-generales-de-recaudacion-sri",
         "selectors": {
-          
+          "data_links": "a[href$='.xlsx']"
+        }
+      },
+      {
+        "name": "inflacion",
+        "url": "https://www.ecuadorencifras.gob.ec/indice-de-precios-al-consumidor/",
+        "selectors": {
+          "data_links": "a[href$='.zip']"
         }
       }
     ]

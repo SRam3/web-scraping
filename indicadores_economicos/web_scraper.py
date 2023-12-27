@@ -31,32 +31,39 @@ class BrowserManager:
 
         self.browser_context = context
         return page
+    
+    def download_file(self, page, selectors, download_folder="downloads"):
+        os.makedirs(download_folder, exist_ok=True)
+
+        page.wait_for_selector(selectors["data_links"])
+        with page.expect_download() as download_info:
+            page.click(selectors["data_links"])
+            download = download_info.value
+
+            download_path = os.path.join(download_folder, download.suggested_filename)
+            download.save_as(download_path)
+
+        return download_path
 
     def close_browser(self):
         if self.browser_context:
             self.browser_context.close()
 
 
-class PIB(BrowserManager):
+class DataScraper(BrowserManager):
     def __init__(self, web_properties):
         super().__init__(web_properties)
 
     def scrape(self, url, selectors):
-        download_folder = "downloads"
-        os.makedirs(download_folder, exist_ok=True)
-
         page = self.create_browser(enable_downloads=True)
-
         page.goto(url)
-        page.wait_for_selector(selectors["data_links"])
 
-        with page.expect_download() as download_info:
-            page.click(selectors["data_links"])
-        download = download_info.value
-
-        download_path = os.path.join(download_folder, download.suggested_filename)
-        download.save_as(download_path)
+        download = self.download_file(page, selectors)
 
         self.close_browser()
 
-        return download_path
+        return download
+    
+    
+    
+

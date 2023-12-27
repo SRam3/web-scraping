@@ -1,6 +1,10 @@
 from config_reader import ConfigReader
-from web_scraper import BrowserManager, WebProperties, PIB
+from web_scraper import WebProperties, DataScraper
 from playwright.sync_api import sync_playwright
+
+
+def scrape_data(scraper, config):
+    return scraper.scrape(config['url'], config['selectors'])
 
 
 def main():
@@ -10,12 +14,11 @@ def main():
 
     with sync_playwright() as playwright:
         web_properties = WebProperties(browser_type=playwright.chromium)
+        scraper = DataScraper(web_properties)
 
-        pib_config = pages_config[0]
-
-        pib_scraper = PIB(web_properties)
-        file_path = pib_scraper.scrape(pib_config['url'], pib_config['selectors'])
-        
+        for page_config in pages_config:
+            scrape_data(scraper, page_config)
+  
 
 if __name__ == "__main__":
     main()

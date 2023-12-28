@@ -1,6 +1,8 @@
 from playwright.sync_api import sync_playwright
 from playwright_stealth import stealth_sync
+from playwright.sync_api import Error as PlaywrightError
 import os
+import time
 
 
 class WebProperties:
@@ -54,15 +56,28 @@ class DataScraper(BrowserManager):
     def __init__(self, web_properties):
         super().__init__(web_properties)
 
-    def scrape(self, url, selectors):
-        page = self.create_browser(enable_downloads=True)
-        page.goto(url)
+    def scrape(self, url, selectors, max_retries=3):
+        attempt = 0
+        while attempt < max_retries:
+            try:
+                page = self.create_browser(enable_downloads=True)
+                page.goto(url)
+                download = self.download_file(page, selectors)
+                return download
+            except PlaywrightError as e:
+                if "net::ERR_CONNECTION_RESET" in str(e):
+                    delay = 2 ** attempt
+                    time.sleep(delay)
+                    attempt += 1
+                else:
+                    raise Exception
+            finally:
+                self.close_browser()
+        
+        print("Failed to scrape data after several attempts")
+        return None
 
-        download = self.download_file(page, selectors)
 
-        self.close_browser()
-
-        return download
     
     
     

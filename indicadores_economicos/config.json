@@ -18,7 +18,14 @@
         "name": "inflacion",
         "url": "https://www.ecuadorencifras.gob.ec/indice-de-precios-al-consumidor/",
         "selectors": {
-          "data_links": "a[href$='.zip']"
+          "data_links": "table tr:nth-child(2) td:first-child a[href$='.zip']"
+        }
+      },
+      {
+        "name": "empleo",
+        "url": "https://www.ecuadorencifras.gob.ec/estadisticas-laborales-enemdu/",
+        "selectors": {
+          "data_links": "a[href$='.xlsx']"
         }
       }
     ]

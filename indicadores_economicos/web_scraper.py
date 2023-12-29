@@ -52,7 +52,7 @@ class BrowserManager:
             self.browser_context.close()
 
 
-class DataScraper(BrowserManager):
+class StaticDataScraper(BrowserManager):
     def __init__(self, web_properties):
         super().__init__(web_properties)
 
@@ -70,14 +70,39 @@ class DataScraper(BrowserManager):
                     time.sleep(delay)
                     attempt += 1
                 else:
-                    raise Exception
+                    raise e
             finally:
                 self.close_browser()
         
-        print("Failed to scrape data after several attempts")
+        return None
+    
+
+class InteractiveDataScraper(BrowserManager):
+    def __init__(sel, web_properties):
+        super().__init__(web_properties)
+
+    def scrape(self, url, actions, max_retries=3):
+        attempt = 0
+        while attempt < max_retries:
+            try:
+                page = self.create_browser(enable_downloads=True)
+                page.goto(url)
+                for action in actions:
+                    if action['action_type'] == 'click':
+                        page.click(action['selector'])
+            except PlaywrightError as e:
+                if "net::ERR_CONNECTION_RESET" in str(e):
+                    delay = 2 ** attempt
+                    time.sleep(delay)
+                    attempt += 1
+                else:
+                    raise e
+            finally:
+                self.close_browser()
+                
         return None
 
-
+ 
     
     
     

@@ -1,10 +1,14 @@
 from config_reader import ConfigReader
-from web_scraper import WebProperties, DataScraper
+from web_scraper import WebProperties, StaticDataScraper, InteractiveDataScraper
 from playwright.sync_api import sync_playwright
 
 
-def scrape_data(scraper, config):
+def static_scrape_data(scraper, config):
     return scraper.scrape(config['url'], config['selectors'])
+
+
+def interactive_scrape_data(scraper, config):
+    return scraper.scrape(config['url'], config['actions'])
 
 
 def main():
@@ -14,10 +18,15 @@ def main():
 
     with sync_playwright() as playwright:
         web_properties = WebProperties(browser_type=playwright.chromium)
-        scraper = DataScraper(web_properties)
+        static_scraper = StaticDataScraper(web_properties)
+        interactive_scraper = InteractiveDataScraper(web_properties)
 
         for page_config in pages_config:
-            scrape_data(scraper, page_config)
+            if "selectors" in page_config:  
+                static_scrape_data(static_scraper, page_config)
+            elif "actions" in page_config:  
+                #interactive_scrape_data(interactive_scraper, page_config)
+                pass
   
 
 if __name__ == "__main__":

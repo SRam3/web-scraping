@@ -1,33 +1,49 @@
 {
-    "pages": [
-      {
-        "name": "PIB",
-        "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/CuentasNacionales/Indices/c124092023.htm",
-        "selectors": {
-          "data_links": "a[href$='.xlsx']"
-        }
-      },
-      {
-        "name": "IVA",
-        "url": "https://www.sri.gob.ec/estadisticas-generales-de-recaudacion-sri",
-        "selectors": {
-          "data_links": "a[href$='.xlsx']"
-        }
-      },
-      {
-        "name": "inflacion",
-        "url": "https://www.ecuadorencifras.gob.ec/indice-de-precios-al-consumidor/",
-        "selectors": {
-          "data_links": "table tr:nth-child(2) td:first-child a[href$='.zip']"
-        }
-      },
-      {
-        "name": "empleo",
-        "url": "https://www.ecuadorencifras.gob.ec/estadisticas-laborales-enemdu/",
-        "selectors": {
-          "data_links": "a[href$='.xlsx']"
-        }
+  "pages": [
+    {
+      "name": "PIB",
+      "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/CuentasNacionales/Indices/c124092023.htm",
+      "selectors": {
+        "data_links": "a[href$='.xlsx']"
       }
-    ]
-  }
-  
+    },
+    {
+      "name": "IVA",
+      "url": "https://www.sri.gob.ec/estadisticas-generales-de-recaudacion-sri",
+      "selectors": {
+        "data_links": "a[href$='.xlsx']"
+      }
+    },
+    {
+      "name": "inflacion",
+      "url": "https://www.ecuadorencifras.gob.ec/indice-de-precios-al-consumidor/",
+      "selectors": {
+        "data_links": "table tr:nth-child(2) td:first-child a[href$='.zip']"
+      }
+    },
+    {
+      "name": "empleo",
+      "url": "https://www.ecuadorencifras.gob.ec/estadisticas-laborales-enemdu/",
+      "selectors": {
+        "data_links": "table tr:nth-child(2) td:first-child a[href$='.xlsx']"
+      }
+    },
+    {
+      "name": "Otros indicadores contenidos en una sola pagina web",
+      "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/IEMensual/Indices/m2060102023.html",
+      "actions":[
+        {
+          "action_type": "click",
+          "selector": "text=/balanza de pagos/i",
+          "variable_name": "remesas recibidas"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/producción nacional de petróleo crudo/i",
+          "variable_name": "produccion de barriles"
+        }
+      ]      
+    }
+
+  ]
+}

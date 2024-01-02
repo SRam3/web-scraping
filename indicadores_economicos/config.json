@@ -34,13 +34,8 @@
       "actions":[
         {
           "action_type": "click",
-          "selector": "text=/balanza de pagos/i",
+          "selector": "text=/Balanza de Pagos Normalizada/",
           "variable_name": "remesas recibidas"
-        },
-        {
-          "action_type":"click",
-          "selector": "text=/producción nacional de petróleo crudo/i",
-          "variable_name": "produccion de barriles"
         }
       ]      
     }

@@ -34,18 +34,21 @@ class BrowserManager:
         self.browser_context = context
         return page
     
-    def download_file(self, page, selectors, download_folder="downloads"):
+    def download_file(self, page, selector, download_folder="downloads"):
         os.makedirs(download_folder, exist_ok=True)
 
-        page.wait_for_selector(selectors["data_links"])
+        page.wait_for_selector(selector)
         with page.expect_download() as download_info:
-            page.click(selectors["data_links"])
+            page.click(selector)
             download = download_info.value
 
             download_path = os.path.join(download_folder, download.suggested_filename)
             download.save_as(download_path)
 
         return download_path
+    
+    def scroll_to_element(self, page, selector):
+        page.evaluate(f"document.querySelector('{selector}').scrollIntoView()")
 
     def close_browser(self):
         if self.browser_context:
@@ -56,13 +59,13 @@ class StaticDataScraper(BrowserManager):
     def __init__(self, web_properties):
         super().__init__(web_properties)
 
-    def scrape(self, url, selectors, max_retries=3):
+    def scrape(self, url, selector, max_retries=3):
         attempt = 0
         while attempt < max_retries:
             try:
                 page = self.create_browser(enable_downloads=True)
                 page.goto(url)
-                download = self.download_file(page, selectors)
+                download = self.download_file(page, selector)
                 return download
             except PlaywrightError as e:
                 if "net::ERR_CONNECTION_RESET" in str(e):
@@ -86,10 +89,13 @@ class InteractiveDataScraper(BrowserManager):
         while attempt < max_retries:
             try:
                 page = self.create_browser(enable_downloads=True)
-                page.goto(url)
+                page.goto(url, wait_until="networkidle")
                 for action in actions:
                     if action['action_type'] == 'click':
-                        page.click(action['selector'])
+                        page.locator(action['selector']).scroll_into_view_if_needed()
+                        page.wait_for_selector(action['selector'])
+                        download = self.download_file(page, action['selector'])
+                        return download
             except PlaywrightError as e:
                 if "net::ERR_CONNECTION_RESET" in str(e):
                     delay = 2 ** attempt

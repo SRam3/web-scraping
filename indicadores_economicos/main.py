@@ -23,7 +23,8 @@ def main():
 
         for page_config in pages_config:
             if "selectors" in page_config:  
-                static_scrape_data(static_scraper, page_config)
+                #static_scrape_data(static_scraper, page_config)
+                pass
             elif "actions" in page_config:  
                 interactive_scrape_data(interactive_scraper, page_config)
                 

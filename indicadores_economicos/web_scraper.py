@@ -47,8 +47,21 @@ class BrowserManager:
 
         return download_path
     
+    def retry_connection_to_url(self, func, max_retries=3):
+        attempt = 0
+        while attempt < max_retries:
+            try:
+                return func()
+            except PlaywrightError as e:
+                if "net::ERR_CONNECTION_RESET" in str(e):
+                    delay = 2 ** attempt
+                    time.sleep(delay)
+                    attempt += 1
+                else:
+                    raise e
+    
     def scroll_to_element(self, page, selector):
-        page.evaluate(f"document.querySelector('{selector}').scrollIntoView()")
+        page.locator(selector).scroll_into_view_if_needed()
 
     def close_browser(self):
         if self.browser_context:
@@ -60,53 +73,32 @@ class StaticDataScraper(BrowserManager):
         super().__init__(web_properties)
 
     def scrape(self, url, selector, max_retries=3):
-        attempt = 0
-        while attempt < max_retries:
-            try:
-                page = self.create_browser(enable_downloads=True)
-                page.goto(url)
-                download = self.download_file(page, selector)
-                return download
-            except PlaywrightError as e:
-                if "net::ERR_CONNECTION_RESET" in str(e):
-                    delay = 2 ** attempt
-                    time.sleep(delay)
-                    attempt += 1
-                else:
-                    raise e
-            finally:
-                self.close_browser()
+        def action():
+            page = self.create_browser(enable_downloads=True)
+            page.goto(url)
+            return self.download_file(page, selector)
         
-        return None
-    
+        return self.retry_connection_to_url(action, max_retries)
 
+    
 class InteractiveDataScraper(BrowserManager):
     def __init__(sel, web_properties):
         super().__init__(web_properties)
 
     def scrape(self, url, actions, max_retries=3):
-        attempt = 0
-        while attempt < max_retries:
-            try:
-                page = self.create_browser(enable_downloads=True)
-                page.goto(url, wait_until="networkidle")
-                for action in actions:
-                    if action['action_type'] == 'click':
-                        page.locator(action['selector']).scroll_into_view_if_needed()
-                        page.wait_for_selector(action['selector'])
+        def action():
+            page = self.create_browser(enable_downloads=True)
+            page.goto(url, wait_until="networkidle")
+            downloads = []
+            for action in actions:
+                if action['action_type'] == 'click':
+                    self.scroll_to_element(page, action['selector'])
+                    if page.is_visible(action['selector']):
                         download = self.download_file(page, action['selector'])
-                        return download
-            except PlaywrightError as e:
-                if "net::ERR_CONNECTION_RESET" in str(e):
-                    delay = 2 ** attempt
-                    time.sleep(delay)
-                    attempt += 1
-                else:
-                    raise e
-            finally:
-                self.close_browser()
-                
-        return None
+                        downloads.append(download)
+            return downloads
+        
+        return self.retry_connection_to_url(action, max_retries)
 
  
     

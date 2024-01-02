@@ -36,6 +36,11 @@
           "action_type": "click",
           "selector": "text=/Balanza de Pagos Normalizada/",
           "variable_name": "remesas recibidas"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/Producción Nacional de Petróleo Crudo y sus Derivados/",
+          "variable_name": "produccion de barriles"
         }
       ]      
     }

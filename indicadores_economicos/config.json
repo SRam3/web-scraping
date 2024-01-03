@@ -61,6 +61,11 @@
           "action_type":"click",
           "selector": "text=/Reservas Internacionales/",
           "variable_name": "reservas internacionales del Ecuador"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/Panorama: Banco Central del Ecuador/",
+          "variable_name": "encaje legal sistema bancos"
         }
       ]      
     }

@@ -75,7 +75,7 @@ class StaticDataScraper(BrowserManager):
     def scrape(self, url, selector, max_retries=3):
         def action():
             page = self.create_browser(enable_downloads=True)
-            page.goto(url)
+            page.goto(url, wait_until="networkidle")
             return self.download_file(page, selector)
         
         return self.retry_connection_to_url(action, max_retries)
@@ -94,8 +94,11 @@ class InteractiveDataScraper(BrowserManager):
                 if action['action_type'] == 'click':
                     self.scroll_to_element(page, action['selector'])
                     if page.is_visible(action['selector']):
+                        print("Selector is visible, attempting to download")
                         download = self.download_file(page, action['selector'])
                         downloads.append(download)
+                    else:
+                        print(f"Element {action['selector']} not visible")
             return downloads
         
         return self.retry_connection_to_url(action, max_retries)

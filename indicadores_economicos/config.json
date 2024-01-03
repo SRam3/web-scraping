@@ -39,8 +39,28 @@
         },
         {
           "action_type":"click",
-          "selector": "text=/Producción Nacional de Petróleo Crudo y sus Derivados/",
+          "selector": "text=/Producci\u00F3n Nacional de Petr\u00F3leo Crudo y sus Derivados/",
           "variable_name": "produccion de barriles"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/Precios Promedio del Crudo Ecuatoriano y del Mercado Internacional/",
+          "variable_name": "precio del petroleo ecuatoriano"
+        },
+        {
+          "action_type":"click",
+          "selector": "xpath=//td[contains(@class, 'nivel3')]/a[text()='Balanza Comercial']",
+          "variable_name": "exportaciones, importaciones y balanza comercial"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/Exportaciones por Producto Principal/",
+          "variable_name": "exportaciones No petroleras principales productos"
+        },
+        {
+          "action_type":"click",
+          "selector": "text=/Reservas Internacionales/",
+          "variable_name": "reservas internacionales del Ecuador"
         }
       ]      
     }

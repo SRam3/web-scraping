@@ -4,7 +4,7 @@ from playwright.sync_api import sync_playwright
 
 
 def static_scrape_data(scraper, config):
-    return scraper.scrape(config['url'], config['selectors']['data_links'])
+    return scraper.scrape(config['url'], config)
 
 
 def interactive_scrape_data(scraper, config):
@@ -22,13 +22,15 @@ def main():
         interactive_scraper = InteractiveDataScraper(web_properties)
 
         for page_config in pages_config:
-            if "selectors" in page_config:  
-                #static_scrape_data(static_scraper, page_config)
-                pass
+            if "selector" in page_config:  
+                result = static_scrape_data(static_scraper, page_config)
+                if result is None:
+                    print(f"Failed to scrape static data for {page_config['name']}.")
             elif "actions" in page_config:  
-                interactive_scrape_data(interactive_scraper, page_config)
+                result = interactive_scrape_data(interactive_scraper, page_config)
+                if result is None or len(result) == 0:
+                    print(f"Failed to scrape interactive data for {page_config['name']}.")
                 
-  
 
 if __name__ == "__main__":
     main()

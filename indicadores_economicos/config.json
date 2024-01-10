@@ -29,6 +29,13 @@
       }
     },
     {
+      "name": "riesgo-pais-latino-america",
+      "url": "https://www.invenomica.com.ar/riesgo-pais-embi-america-latina-serie-historica/",
+      "selector": {
+        "data_link": ".content-enlace-single a[href$='.xlsx']"
+      }
+    },
+    {
       "name": "Otros indicadores contenidos en una sola pagina web",
       "url": "https://contenido.bce.fin.ec/documentos/PublicacionesNotas/Catalogo/IEMensual/Indices/m2060102023.html",
       "actions":[

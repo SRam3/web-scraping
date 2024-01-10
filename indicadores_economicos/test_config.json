@@ -1,0 +1,11 @@
+{
+    "pages": [
+      {
+        "name": "riesgo-pais-latino-america",
+        "url": "https://www.invenomica.com.ar/riesgo-pais-embi-america-latina-serie-historica/",
+        "selector": {
+          "data_link": ".content-enlace-single a[href$='.xlsx']"
+        }
+      }
+    ]
+  }

@@ -23,13 +23,17 @@ def main():
 
         for page_config in pages_config:
             if "selector" in page_config:  
+                #pass
                 result = static_scrape_data(static_scraper, page_config)
                 if result is None:
                     print(f"Failed to scrape static data for {page_config['name']}.")
             elif "actions" in page_config:  
+                #pass
                 result = interactive_scrape_data(interactive_scraper, page_config)
                 if result is None or len(result) == 0:
                     print(f"Failed to scrape interactive data for {page_config['name']}.")
+            
+            
                 
 
 if __name__ == "__main__":
